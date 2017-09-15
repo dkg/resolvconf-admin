@@ -9,6 +9,13 @@ to be done by root on some systems.  For example, it should allow you
 to run a DHCP client without giving that DHCP client full superuser
 privileges.
 
+If `/sbin/resolvconf` is present, it is invoked as root with the recommended
+data.  If it is not present, then `/etc/resolv.conf` is overwritten with a
+simple file.
+
+WARNING!!!
+----------
+
 A better (non-suid) approach for setting up the DNS in a
 non-privileged way is to make an authenticated IPC call to some
 [running daemon that already manages
@@ -22,9 +29,8 @@ the operating system.
 
 DO NOT INSTALL THIS TOOL IF YOU HAVE BETTER OPTIONS AVAILABLE TO YOU!
 
-If `/sbin/resolvconf` is present, it is invoked as root with the recommended
-data.  If it is not present, then `/etc/resolv.conf` is overwritten with a
-simple file.
+Installation
+------------
 
 It should probably be installed like so:
 
@@ -36,6 +42,9 @@ and then make sure the user that you care about has access, by
 adding them to this group:
 
     adduser my-nonpriv-dhcp-daemon resolvconf-admins
+
+Usage
+-----
 
 When the non-privileged user wants to set the DNS servers due to
 information from interface NETIF, it should invoke:
