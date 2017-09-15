@@ -1,0 +1,34 @@
+#!/bin/sh
+
+# Author: Daniel Kahn Gillmor <dkg@fifthhorseman.net>
+
+set -e
+set -x
+
+# TODO: learn some other local interface!
+NETIF=lo
+
+cleanup() {
+    rm -f tests/dummy-resolvconf2
+}
+
+trap cleanup EXIT
+
+# TODO: fill in the tests here!
+./resolvconf-admin-test add "$NETIF" 4.2.2.1
+
+[ "$(grep '^[^#]' < tests/resolv.conf)" = "nameserver 4.2.2.1" ]
+
+ln -s dummy-resolvconf tests/dummy-resolvconf2
+
+./resolvconf-admin-test add "$NETIF" 8.8.8.8
+
+[ "$(grep '^[^#]' < tests/resolv.conf)" = "nameserver 8.8.8.8" ]
+
+
+# TODO: test with non-existent interface
+
+
+# TODO: test with DOMAIN and SEARCH
+
+# TODO: test "resolvconf-admin del"

@@ -1,0 +1,6 @@
+resolvconf-admin
+resolvconf-admin.1
+*~
+tests/resolv.conf
+tests/resolv.conf
+resolvconf-admin-test
