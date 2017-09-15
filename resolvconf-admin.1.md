@@ -38,8 +38,7 @@ WARNING
 
 A better (non-suid) approach for setting up the DNS in a
 non-privileged way is to make an authenticated IPC call to some
-[running daemon that already manages
-resolv.conf](https://www.freedesktop.org/wiki/Software/systemd/resolved/)
+running daemon that already manages (e.g., systemd-resolved(8)).
 However, some systems do not run such a daemon, so we offer this
 setuid approach instead, for those limited systems.
 
@@ -47,7 +46,7 @@ This setuid program *should not* be installed on systems that already run
 such a daemon, because every setuid program increases the attack surface of
 the operating system.
 
-DO NOT USE THIS TOOL IF YOU CAN HELP IT!
+DO NOT INSTALL THIS TOOL IF YOU HAVE BETTER OPTIONS AVAILABLE TO YOU!
 
 SEE ALSO
 ========
