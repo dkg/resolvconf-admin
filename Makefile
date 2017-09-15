@@ -11,7 +11,7 @@ resolvconf-admin.1: resolvconf-admin.1.md
 	pandoc -s -f markdown -t man -o $@ $<
 
 resolvconf-admin-test: resolvconf-admin.c
-	gcc -Wall -Werror -DSBINRESOLVCONF=\"$(PWD)/tests/dummy-resolvconf2\" -DETCRESOLVCONF=\"$(PWD)/tests/resolv.conf\" -pedantic -g -o $@ $<
+	gcc -Wall -Werror -DSBINRESOLVCONF=\"$(CURDIR)/tests/dummy-resolvconf2\" -DETCRESOLVCONF=\"$(CURDIR)/tests/resolv.conf\" -pedantic -g -o $@ $<
 
 check: resolvconf-admin-test tests/run tests/dummy-resolvconf
 	tests/run
