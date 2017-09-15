@@ -36,7 +36,7 @@ It should probably be installed like so:
 
     getent group resolvconf-admins >/dev/null || addgroup --system resolvconf-admins
     chown root:resolvconf-admins /usr/bin/resolvconf-admin
-    chmod 2754 /usr/bin/resolvconf-admin
+    chmod 4754 /usr/bin/resolvconf-admin
 
 and then make sure the user that you care about has access, by
 adding them to this group:
