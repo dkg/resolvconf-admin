@@ -17,6 +17,6 @@ check: resolvconf-admin-test tests/run tests/dummy-resolvconf
 	tests/run
 
 clean:
-	rm -f $(OBJECTS) resolvconf-admin-test
+	rm -f $(OBJECTS) resolvconf-admin-test tests/resolv.conf tests/dummy-resolvconf2
 
 .PHONY: all clean check
