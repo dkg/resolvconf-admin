@@ -291,7 +291,7 @@ main(int argc, const char **argv)
 
     snprintf(preamble, sizeof(preamble)-2, "%s\n# (%s)\n", PREAMBLE, ifname);
     if (use_sbin_resolvconf) {
-        snprintf(label, sizeof(label)-1, "%s." PROGNAME, ifname);
+        snprintf(label, sizeof(label)-1, "%s.%d." PROGNAME, ifname, getuid());
         if (do_add) {
             if (pipe(pipes)) {
                 perror("Failed to open a pipe");
