@@ -221,7 +221,14 @@ int resolvconf_starts_with(const char *preamble) {
     if (oldfd == -1) {
         perror("Failed to open " ETCRESOLVCONF " for reading");
     } else {
+        struct stat statbuf;
         size_t sz = strlen(preamble);
+        if (fstat(oldfd, &statbuf)) {
+          perror("failed to stat " ETCRESOLVCONF " after opening");
+          return -1;
+        }
+        if (statbuf.st_size < sz)
+          return 0;
         char* oldcontents = (char *)mmap(NULL, sz,
                                          PROT_READ, MAP_PRIVATE, oldfd, 0);
         if (oldcontents == MAP_FAILED) {
