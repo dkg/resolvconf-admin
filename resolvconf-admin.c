@@ -251,8 +251,10 @@ main(int argc, const char **argv)
     const char *ifname = NULL;
     char label[1024];
     char preamble[1024];
+    char backupname[1024];
     int do_add = 0;
     label[sizeof(label)-1] = 0;
+    backupname[sizeof(backupname)-1] = 0;
     preamble[sizeof(preamble)-1] = 0;
     preamble[sizeof(preamble)-2] = '\n'; /* ensure that there is a trailing
                                             newline if ifname happens to be
@@ -306,6 +308,8 @@ main(int argc, const char **argv)
             return 1;
         }
     } else {
+        snprintf(backupname, sizeof(backupname)-1, "%s.bak.%d.%s",
+                 ETCRESOLVCONF, getuid(), PROGNAME);
         if (do_add) {
             pipes[1] = mkstemp(tmpname);
             if (pipes[1] == -1) {
@@ -314,8 +318,11 @@ main(int argc, const char **argv)
             }
         } else {
             if (resolvconf_starts_with(preamble) == 1) {
-                if (unlink(ETCRESOLVCONF))
-                    perror("Failed to unlink " ETCRESOLVCONF);
+                if (access(backupname, F_OK) == 0) {
+                  if (rename(backupname, ETCRESOLVCONF))
+                    fprintf(stderr, "Failed to restore %s to %s: (%d) %s\n",
+                            backupname, ETCRESOLVCONF, errno, strerror(errno));
+                }
             } else {
                 fprintf(stderr, "%s is not created by %s for interface %s, not destroying.\n",
                         ETCRESOLVCONF, PROGNAME, ifname);
@@ -384,10 +391,6 @@ main(int argc, const char **argv)
            be backing up each other's data. */
         if (0 == access(ETCRESOLVCONF, F_OK)) {
             if (resolvconf_starts_with(PREAMBLE) != 1) {
-              char backupname[1024];
-              backupname[sizeof(backupname)-1] = 0;
-              snprintf(backupname, sizeof(backupname)-1, "%s.bak.%d.%s",
-                      ETCRESOLVCONF, getuid(), PROGNAME);
                 if (0 == access(backupname, F_OK)) {
                     if (unlink(backupname)) {
                         if (errno != ENOENT)
