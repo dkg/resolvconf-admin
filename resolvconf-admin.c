@@ -166,9 +166,9 @@ write_new_resolvconf(FILE* writer, int argc, const char **argv, const char *prea
                     return 1;
                 }
                 if (!is_valid_domain(argv[i], 0)) {
-                    fprintf(stderr, "Non-domain-name argument for -d: \"%s\"\n",
+                    fprintf(stderr, "Non-domain-name argument for -d: \"%s\", skipping..\n",
                             argv[i]);
-                    return 1;
+                    continue;
                 }
                 domain = argv[i];
             } else if (argv[i-1][1] == 's') {
@@ -177,9 +177,9 @@ write_new_resolvconf(FILE* writer, int argc, const char **argv, const char *prea
                     return 1;
                 }
                 if (!is_valid_domain(argv[i], 1)) {
-                    fprintf(stderr, "bad argument for domain search list -s: \"%s\"\n",
+                    fprintf(stderr, "bad argument for domain search list -s: \"%s\", skipping...\n",
                             argv[i]);
-                    return 1;
+                    continue;
                 }
                 search = argv[i];
             } else {
