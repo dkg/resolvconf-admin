@@ -1,0 +1,3 @@
+version=4
+
+https://github.com/dkg/resolvconf-admin/tags (?:.*?/)?resolvconf-admin-?(\d[\d.]*)\.tar\.gz

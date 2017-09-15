@@ -1,0 +1,7 @@
+Tests: simple-with-resolvconf
+Depends: @, resolvconf
+Restrictions: needs-root
+
+Tests: simple-no-resolvconf
+Depends: @
+Restrictions: needs-root

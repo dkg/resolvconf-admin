@@ -1,0 +1,6 @@
+resolvconf-admin (0.1-1) unstable; urgency=medium
+
+  * prepare debian package (Closes: #875874)
+
+ -- Daniel Kahn Gillmor <dkg@fifthhorseman.net>  Fri, 15 Sep 2017 12:23:07 -0400
+

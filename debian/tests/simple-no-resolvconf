@@ -1,0 +1,18 @@
+#!/bin/bash
+
+set -e
+
+# because we can't have Conflicts: in autopkgtest (see
+# https://bugs.debian.org/875914).  Hopefully this won't be a problem
+# with resolvconf warning about a reboot and needing user interaction.
+restore_resolvconf=false
+if dpkg -s resolvconf >/dev/null 2>/dev/null; then
+    restore_resolvconf=true
+    apt-get -qq -y remove resolvconf
+fi
+
+. debian/tests/simple
+
+if [ "true" = "$restore_resolvconf" ]; then
+    apt-get -qq -y install resolvconf
+fi

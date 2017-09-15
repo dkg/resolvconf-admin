@@ -1,0 +1,15 @@
+#!/bin/sh
+
+set -e
+
+case "$1" in
+    configure)
+        if ! getent group resolvconf-admins >/dev/null; then
+            addgroup --quiet --system resolvconf-admins || true
+        fi
+        chown root:resolvconf-admins /usr/bin/resolvconf-admin
+        chmod 4754 /usr/bin/resolvconf-admin
+        ;;
+esac
+
+#DEBHELPER#
