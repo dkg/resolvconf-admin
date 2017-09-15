@@ -301,7 +301,7 @@ main(int argc, const char **argv)
                 return 1;
             }
         } else {
-            execl(SBINRESOLVCONF, "-d", label, NULL);
+            execl(SBINRESOLVCONF, "resolvconf", "-d", label, NULL);
             perror(SBINRESOLVCONF " -d failed.");
             return 1;
         }
@@ -354,7 +354,7 @@ main(int argc, const char **argv)
                     errno, strerror(errno));
             return 1;
         }
-        execl(SBINRESOLVCONF, "-a", label, NULL);
+        execl(SBINRESOLVCONF, "resolvconf", "-a", label, NULL);
         /* should never get here! */
         perror(SBINRESOLVCONF " -a failed");
         return 1;
