@@ -5,8 +5,9 @@ resolvconf-admin
 be able to set up the local DNS.
 
 This program deals with setting the local DNS information, which needs
-to be done by root on some systems.  It allows you to run things like
-a DHCP client without giving that DHCP client full network privileges.
+to be done by root on some systems.  For example, it should allow you
+to run a DHCP client without giving that DHCP client full superuser
+privileges.
 
 A better (non-suid) approach for setting up the DNS in a
 non-privileged way is to make an authenticated IPC call to some
@@ -19,7 +20,7 @@ This setuid program *should not* be installed on systems that already run
 such a daemon, because every setuid program increases the attack surface of
 the operating system.
 
-DO NOT USE THIS TOOL IF YOU CAN HELP IT!
+DO NOT INSTALL THIS TOOL IF YOU HAVE BETTER OPTIONS AVAILABLE TO YOU!
 
 If `/sbin/resolvconf` is present, it is invoked as root with the recommended
 data.  If it is not present, then `/etc/resolv.conf` is overwritten with a
