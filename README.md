@@ -2,37 +2,42 @@ resolvconf-admin
 ================
 
 `resolvconf-admin` is a setuid helper program for tools that need to
-be able to set up the local DNS.
+be able to set up the local DNS resolver configuration.
 
-This program deals with setting the local DNS information, which needs
-to be done by root on some systems.  For example, it should allow you
-to run a DHCP client without giving that DHCP client full superuser
-privileges.
+This program deals with setting the local DNS resolver configuration
+(i.e. `/etc/resolv.conf`), which needs to be done as root on some
+systems.  One example use case is to run a DHCP client without giving
+that DHCP client full superuser privileges.
 
-If `/sbin/resolvconf` is present, it is invoked as root with the recommended
-data.  If it is not present, then `/etc/resolv.conf` is overwritten with a
-simple file.
+Theory of Operation
+-------------------
+
+If `/sbin/resolvconf` is present and executable, it is invoked as root
+with the specified configuration.  If `/sbin/resolvconf` is not
+present (or is present but not executable), then `/etc/resolv.conf` is
+updated directly.
 
 WARNING!!!
 ----------
 
-A better (non-suid) approach for setting up the DNS in a
-non-privileged way is to make an authenticated IPC call to some
-[running daemon that already manages
-resolv.conf](https://www.freedesktop.org/wiki/Software/systemd/resolved/).
+A better approach for setting up the DNS in a non-privileged way is to
+make an authenticated IPC call to some [running daemon that already
+manages
+`/etc/resolv.conf`](https://www.freedesktop.org/wiki/Software/systemd/resolved/).
 However, some systems do not run such a daemon, so we offer this
-setuid approach instead, for those limited systems.
+setuid approach instead, for those limited systems only.
 
-This setuid program *should not* be installed on systems that already run
-such a daemon, because every setuid program increases the attack surface of
-the operating system.
+This setuid program *should not* be installed on systems that already
+run such a daemon, because every setuid program increases the attack
+surface of the operating system.
 
-DO NOT INSTALL THIS TOOL IF YOU HAVE BETTER OPTIONS AVAILABLE TO YOU!
+*DO NOT INSTALL THIS TOOL IF YOU HAVE BETTER OPTIONS AVAILABLE TO YOU!*
 
 Installation
 ------------
 
-It should probably be installed like so:
+It should probably be installed as `/usr/bin/resolvconf-admin`
+something like this:
 
     getent group resolvconf-admins >/dev/null || addgroup --system resolvconf-admins
     chown root:resolvconf-admins /usr/bin/resolvconf-admin
@@ -46,15 +51,16 @@ adding them to this group:
 Usage
 -----
 
-When the non-privileged user wants to set the DNS servers due to
-information from interface NETIF, it should invoke:
+When the non-privileged user wants to set local DNS resolvers due to
+information it learned from interface NETIF, it should invoke:
 
     resolvconf-admin add NETIF [-s SEARCH] [-d DOMAIN] NAMESERVER [...]
 
-(note that DNS search path and domain name are optional; however,
-at least one nameserver is required)
+Note that DNS search path and domain name are optional.  However, at
+least one nameserver is required.
 
-When the non-privileged users wants to tear down the DNS servers
-that had been set for interface NETIF, it should invoke:
+When the non-privileged user wants to tear down the DNS resolver
+information that it had previously set for interface NETIF, it should
+invoke:
 
     resolvconf-admin del NETIF
