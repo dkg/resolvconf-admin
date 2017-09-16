@@ -130,12 +130,12 @@ usage(FILE* f, const char *arg0)
 {
   if (!arg0)
     arg0 = PROGNAME;
-  fprintf(stderr, "Usage: %s add IFNAME [-d DOMAIN] [-s SEARCH] NAMESERVERIP [...]\n"
+  fprintf(stderr, "Usage:\t%s add IFNAME [-d DOMAIN] [-s SEARCH] NAMESERVERIP [...]\n"
           "\t%s del IFNAME\n"
           "\t%s help\n"
           "\n"
-          "invokes " SBINRESOLVCONF " if present,\n"
-          "otherwise updates " ETCRESOLVCONF " directly\n",
+          "If " SBINRESOLVCONF " is present, invoke it appropriately.\n"
+          "If " SBINRESOLVCONF " is not present, update " ETCRESOLVCONF " directly.\n",
           arg0, arg0, arg0);
 }
 
