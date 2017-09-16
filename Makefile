@@ -9,6 +9,9 @@ ETCRESOLVCONF ?= /etc/resolv.conf
 
 FILENAMES = -DSBINRESOLVCONF=\"$(SBINRESOLVCONF)\" -DETCRESOLVCONF=\"$(ETCRESOLVCONF)\"
 
+PREFIX ?= /usr
+MANPATH ?= $(PREFIX)/share/man
+
 all: $(OBJECTS)
 
 resolvconf-admin: resolvconf-admin.c
@@ -28,7 +31,11 @@ resolvconf-admin-test: resolvconf-admin.c
 check: resolvconf-admin-test tests/run tests/dummy-resolvconf
 	tests/run
 
+install: resolvconf-admin resolvconf-admin.1
+	install -D -m 4754 resolvconf-admin $(DESTDIR)$(PREFIX)/bin/resolvconf-admin
+	install -D -m 0644 resolvconf-admin.1 $(DESTDIR)$(MANPATH)/man1/resolvconf-admin.1
+
 clean:
 	rm -f $(OBJECTS) resolvconf-admin-test tests/resolv.conf tests/dummy-resolvconf2 resolvconf-admin.1.md
 
-.PHONY: all clean check
+.PHONY: all clean check install
