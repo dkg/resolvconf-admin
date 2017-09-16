@@ -48,6 +48,26 @@ the operating system.
 
 DO NOT INSTALL THIS TOOL IF YOU HAVE BETTER OPTIONS AVAILABLE TO YOU!
 
+INTERLEAVED OPERATION WITHOUT RESOLVCONF(8)
+===========================================
+
+On a system where `resolvconf(8)` is not installed, the behavior is
+not very sophisticated.  On these systems:
+
+ * The first time `resolvconf-admin add` is invoked, the old
+   `/etc/resolv.conf` is backed up to
+   `/etc/resolv.conf.bak.resolvconf-admin`.
+
+ * The first time `resolvconf-admin del` is invoked, the backed up
+   file is restored.
+
+If multiple daemons (or a single daemon monitoring multiple sources of
+DNS resolver information) invokes `resolvconf-admin` in an interleaved
+fashion (e.g. two `add`s before a `del`), this will almost certainly
+not be the behavior that you want.  If your system is likely to have
+this kind of interleaved operation, it should also have
+`resolvconf(8)` installed.
+
 SEE ALSO
 ========
 
