@@ -21,9 +21,9 @@ DESCRIPTION
 ===========
 
 This setuid program allows specific non-privileged users to invoke
-`/sbin/resolvconf` (if it is present) with a constrained argument to add
-or remove DNS resolvers; or, if `/sbin/resolvconf` is not executable, it
-can replace `/etc/resolv.conf`.
+`@SBINRESOLVCONF@` (if it is present) with a constrained argument to add
+or remove DNS resolvers; or, if `@SBINRESOLVCONF@` is not executable, it
+can replace `@ETCRESOLVCONF@`.
 
 This is useful, for example, for running a DHCP client as a
 non-privileged user.
@@ -65,8 +65,8 @@ On a system where `resolvconf(8)` is not installed, the behavior is
 not very sophisticated.  On these systems:
 
  * The first time `resolvconf-admin add` is invoked, the old
-   `/etc/resolv.conf` is backed up to
-   `/etc/resolv.conf.bak.resolvconf-admin`.
+   `@ETCRESOLVCONF@` is backed up to
+   `@ETCRESOLVCONF@.bak.resolvconf-admin`.
 
  * The first time `resolvconf-admin del` is invoked, the backed up
    file is restored.

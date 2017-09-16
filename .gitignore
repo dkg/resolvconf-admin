@@ -1,6 +1,6 @@
 resolvconf-admin
 resolvconf-admin.1
+resolvconf-admin.1.md
 *~
-tests/resolv.conf
 tests/resolv.conf
 resolvconf-admin-test
