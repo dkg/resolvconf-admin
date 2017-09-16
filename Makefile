@@ -15,7 +15,7 @@ MANPATH ?= $(PREFIX)/share/man
 all: $(OBJECTS)
 
 resolvconf-admin: resolvconf-admin.c
-	$(CC) $(CFLAGS) $(LDFLAGS) $(FILENAMES) -o $@ $<
+	$(CC) $(CPPFLAGS) $(CFLAGS) $(LDFLAGS) $(FILENAMES) -o $@ $<
 
 resolvconf-admin.1.md: resolvconf-admin.1.md.in
 	sed -e 's!@SBINRESOLVCONF@!$(SBINRESOLVCONF)!g' \
@@ -26,7 +26,7 @@ resolvconf-admin.1: resolvconf-admin.1.md
 	pandoc -s -f markdown -t man -o $@ $<
 
 resolvconf-admin-test: resolvconf-admin.c
-	$(CC) $(CFLAGS) $(LDFLAGS) -DSBINRESOLVCONF=\"$(CURDIR)/tests/dummy-resolvconf2\" -DETCRESOLVCONF=\"$(CURDIR)/tests/resolv.conf\" -o $@ $<
+	$(CC) $(CPPFLAGS) $(CFLAGS) $(LDFLAGS) -DSBINRESOLVCONF=\"$(CURDIR)/tests/dummy-resolvconf2\" -DETCRESOLVCONF=\"$(CURDIR)/tests/resolv.conf\" -o $@ $<
 
 check: resolvconf-admin-test tests/run tests/dummy-resolvconf
 	tests/run
