@@ -405,8 +405,8 @@ main(int argc, const char **argv)
     }
 
     if (rename(tmpname, ETCRESOLVCONF)) {
-      fprintf(stderr, "failed to rename \"%s\" to \"" ETCRESOLVCONF "\": (%d) %s\n",
-              tmpname, errno, strerror(errno));
+      fprintf(stderr, "failed to rename \"%s\" to \"%s\": (%d) %s\n",
+              tmpname, ETCRESOLVCONF, errno, strerror(errno));
     }
   }
 }
