@@ -1,7 +1,7 @@
 Tests: simple-with-resolvconf
-Depends: @, resolvconf
+Depends: @, resolvconf, build-essential
 Restrictions: needs-root
 
 Tests: simple-no-resolvconf
-Depends: @
+Depends: @, build-essential
 Restrictions: needs-root

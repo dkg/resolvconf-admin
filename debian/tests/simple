@@ -3,6 +3,9 @@
 
 workdir=${AUTOPKGTEST_TMP:-$(mktemp -d)}
 
+make tests/getifname
+netif=$(tests/getifname)
+
 adduser --quiet --system --shell=/bin/bash --disabled-password \
         --gecos 'resolvconf-admin test user,,,,' testdaemon0
 adduser --quiet testdaemon0 resolvconf-admins
@@ -12,9 +15,9 @@ tid=$(id -u testdaemon0)
 cp /etc/resolv.conf "$workdir/resolv.conf"
 
 for nameserver in 8.8.4.4 1.2.3.4; do
-    su - testdaemon0 -c "resolvconf-admin add lo $nameserver"
+    su - testdaemon0 -c "resolvconf-admin add $netif $nameserver"
     grep -qFx "nameserver $nameserver" /etc/resolv.conf
-    su - testdaemon0 -c "resolvconf-admin del lo"
+    su - testdaemon0 -c "resolvconf-admin del $netif"
 done
 
 diff -u "/etc/resolv.conf" "$workdir/resolv.conf"
