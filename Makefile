@@ -14,7 +14,7 @@ MANPATH ?= $(PREFIX)/share/man
 
 all: $(OBJECTS)
 
-resolvconf-admin: resolvconf-admin.c
+%: %.c
 	$(CC) $(CPPFLAGS) $(CFLAGS) $(LDFLAGS) $(FILENAMES) -o $@ $<
 
 resolvconf-admin.1.md: resolvconf-admin.1.md.in
@@ -28,7 +28,7 @@ resolvconf-admin.1: resolvconf-admin.1.md
 resolvconf-admin-test: resolvconf-admin.c
 	$(CC) $(CPPFLAGS) $(CFLAGS) $(LDFLAGS) -DSBINRESOLVCONF=\"$(CURDIR)/tests/dummy-resolvconf2\" -DETCRESOLVCONF=\"$(CURDIR)/tests/resolv.conf\" -o $@ $<
 
-check: resolvconf-admin-test tests/run tests/dummy-resolvconf
+check: resolvconf-admin-test tests/run tests/dummy-resolvconf tests/getifname
 	tests/run
 
 install: resolvconf-admin resolvconf-admin.1
@@ -36,6 +36,6 @@ install: resolvconf-admin resolvconf-admin.1
 	install -D -m 0644 resolvconf-admin.1 $(DESTDIR)$(MANPATH)/man1/resolvconf-admin.1
 
 clean:
-	rm -f $(OBJECTS) resolvconf-admin-test tests/resolv.conf tests/dummy-resolvconf2 resolvconf-admin.1.md
+	rm -f $(OBJECTS) resolvconf-admin-test tests/resolv.conf tests/dummy-resolvconf2 resolvconf-admin.1.md tests/getifname
 
 .PHONY: all clean check install
