@@ -5,8 +5,7 @@
 set -e
 set -x
 
-# TODO: learn some other local interface!
-NETIF=lo
+NETIF=$(tests/getifname)
 
 cleanup() {
     rm -f tests/dummy-resolvconf2

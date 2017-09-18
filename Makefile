@@ -12,9 +12,12 @@ FILENAMES = -DSBINRESOLVCONF=\"$(SBINRESOLVCONF)\" -DETCRESOLVCONF=\"$(ETCRESOLV
 PREFIX ?= /usr
 MANPATH ?= $(PREFIX)/share/man
 
+VERSION ?= $(shell head -n1 < CHANGES | cut -f2 -d\ )
+
+
 all: $(OBJECTS)
 
-resolvconf-admin: resolvconf-admin.c
+%: %.c
 	$(CC) $(CPPFLAGS) $(CFLAGS) $(LDFLAGS) $(FILENAMES) -o $@ $<
 
 resolvconf-admin.1.md: resolvconf-admin.1.md.in
@@ -28,7 +31,7 @@ resolvconf-admin.1: resolvconf-admin.1.md
 resolvconf-admin-test: resolvconf-admin.c
 	$(CC) $(CPPFLAGS) $(CFLAGS) $(LDFLAGS) -DSBINRESOLVCONF=\"$(CURDIR)/tests/dummy-resolvconf2\" -DETCRESOLVCONF=\"$(CURDIR)/tests/resolv.conf\" -o $@ $<
 
-check: resolvconf-admin-test tests/run tests/dummy-resolvconf
+check: resolvconf-admin-test tests/run tests/dummy-resolvconf tests/getifname
 	tests/run
 
 install: resolvconf-admin resolvconf-admin.1
@@ -36,6 +39,13 @@ install: resolvconf-admin resolvconf-admin.1
 	install -D -m 0644 resolvconf-admin.1 $(DESTDIR)$(MANPATH)/man1/resolvconf-admin.1
 
 clean:
-	rm -f $(OBJECTS) resolvconf-admin-test tests/resolv.conf tests/dummy-resolvconf2 resolvconf-admin.1.md
+	rm -f $(OBJECTS) resolvconf-admin-test tests/resolv.conf tests/dummy-resolvconf2 resolvconf-admin.1.md tests/getifname
 
-.PHONY: all clean check install
+# for upstream maintainer working from git only:
+release:
+	git tag -d resolvconf-admin-$(VERSION) || true
+	git tag -s resolvconf-admin-$(VERSION) -m 'tagging release of resolvconf-admin $(VERSION)' master
+	git archive --format=tar --prefix=resolvconf-admin-$(VERSION)/ resolvconf-admin-$(VERSION) | gzip -9n > ../resolvconf-admin_$(VERSION).orig.tar.gz
+	gpg --armor --detach-sign ../resolvconf-admin_$(VERSION).orig.tar.gz
+
+.PHONY: all clean check install release

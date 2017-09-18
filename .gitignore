@@ -3,4 +3,5 @@ resolvconf-admin.1
 resolvconf-admin.1.md
 *~
 tests/resolv.conf
+tests/getifname
 resolvconf-admin-test
