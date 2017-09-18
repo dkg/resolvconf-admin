@@ -1,3 +1,7 @@
+Version 0.2
+-----------
+2017-09-18 - support "make check" on platforms that don't have an interface named "lo"
+
 Version 0.1
 -----------
 2017-09-16 - initial release, inspired by dhcpcanon
