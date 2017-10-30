@@ -61,6 +61,15 @@ typedef struct { char data[INET_ADDRSTRLEN]; } addrstr;
 #define BACKUPNAME ETCRESOLVCONF ".bak." PROGNAME
 #endif
 
+#ifndef EXECPATH
+#define EXECPATH "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+#endif
+
+char * const envp[] = {
+  "PATH=" EXECPATH,
+  NULL
+};
+
 /* return 0 on success */
 int
 canonicalize_ip(const char *in, addrstr* out)
@@ -297,7 +306,7 @@ main(int argc, const char **argv)
         return 1;
       }
     } else {
-      execl(SBINRESOLVCONF, "resolvconf", "-d", label, NULL);
+      execle(SBINRESOLVCONF, "resolvconf", "-d", label, NULL, envp);
       perror(SBINRESOLVCONF " -d failed.");
       return 1;
     }
@@ -352,7 +361,7 @@ main(int argc, const char **argv)
               errno, strerror(errno));
       return 1;
     }
-    execl(SBINRESOLVCONF, "resolvconf", "-a", label, NULL);
+    execle(SBINRESOLVCONF, "resolvconf", "-a", label, NULL, envp);
     /* should never get here! */
     perror(SBINRESOLVCONF " -a failed");
     return 1;

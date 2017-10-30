@@ -18,11 +18,19 @@ trap cleanup EXIT
 
 [ "$(grep '^[^#]' < tests/resolv.conf)" = "nameserver 4.2.2.1" ]
 
+./resolvconf-admin-test add "$NETIF" 4.2.2.2 4.2.2.1
+
+[ "$(grep '^[^#]' < tests/resolv.conf)" = "$(printf "nameserver 4.2.2.2\nnameserver 4.2.2.1")" ]
+
 ln -s dummy-resolvconf tests/dummy-resolvconf2
 
 ./resolvconf-admin-test add "$NETIF" 8.8.8.8
 
 [ "$(grep '^[^#]' < tests/resolv.conf)" = "nameserver 8.8.8.8" ]
+
+./resolvconf-admin-test add "$NETIF" 1.2.3.4 5.6.7.8
+
+[ "$(grep '^[^#]' < tests/resolv.conf)" = "$(printf "nameserver 1.2.3.4\nnameserver 5.6.7.8")" ]
 
 
 # TODO: test with non-existent interface
