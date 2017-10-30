@@ -1,3 +1,12 @@
+resolvconf-admin (0.3-1) unstable; urgency=medium
+
+  * Clear the environment before exec'ing resolvconf (avoids trivial
+    privilege escalation vulnerability, see
+    https://github.com/dkg/resolvconf-admin/issues/5)
+  * Standards-Version: bump to 4.1.1 (no changes needed)
+
+ -- Daniel Kahn Gillmor <dkg@fifthhorseman.net>  Mon, 30 Oct 2017 12:48:41 +0100
+
 resolvconf-admin (0.2-1) unstable; urgency=medium
 
   * new upstream release
